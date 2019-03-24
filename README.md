@@ -1,6 +1,6 @@
-# Piggy Bank
+# BEYOND Instore Checkout
 
-Demo application for using the REST API of ePages BEYOND.
+Checkout app for BEYOND Instore.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 

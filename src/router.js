@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/components/Home'
+import Install from '@/components/Install'
 import Authorize from '@/components/Authorize'
 import ProductList from '@/components/ProductList'
 
@@ -14,6 +15,10 @@ export default new VueRouter({
       path: '/',
       name: 'Home',
       component: Home
+    }, {
+      path: '/:shop/install',
+      name: 'Install',
+      component: Install
     }, {
       path: '/authorize',
       name: 'Authorize',

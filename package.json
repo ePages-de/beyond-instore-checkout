@@ -1,6 +1,6 @@
 {
-  "name": "piggy-bank",
-  "version": "0.1.0",
+  "name": "beyond-instore-checkout",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -10,8 +10,8 @@
     "start": "node server.js"
   },
   "engines": {
-    "node": "8.11.x",
-    "yarn": "1.9.4"
+    "node": ">8.0.0",
+    "yarn": ">1.9.4"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.4",

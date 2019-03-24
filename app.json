@@ -1,12 +1,13 @@
 {
-    "name": "Piggy Bank",
-    "description": "Starter application for using the REST API of ePages BEYOND.",
-    "website": "https://signup.beyondshop.cloud/",
-    "repository": "https://github.com/ePages-de/piggy-bank",
-    "logo": "https://github.com/ePages-de/piggy-bank/blob/master/src/assets/piggy-bank.png?raw=true",
+    "name": "BEYOND Instore Checkout",
+    "description": "Checkout application for BEYOND Instore",
+    "website": "https://instore.beyondshop.cloud/",
+    "repository": "https://github.com/ePages-de/beyond-instore-checkout",
+    "logo": "https://newsroom.epages.com/wp-content/uploads/2018/05/epages_logo-cmyk.jpg",
     "keywords": [
         "vuejs",
         "beyond",
+        "instore",
         "rest-api"
     ],
     "buildpacks": [
