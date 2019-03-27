@@ -23,23 +23,23 @@
                   <div class="cart-table-item-product-description">
                     <a href="#"><h2 class="headline">Secrid Slimwallet Vintage</h2></a>
                     <p class="essential-features"></p>
-                    <button class="remove-link" title="Remove product" type="button"><span class="remove-text"><!-- -->Remove product<!-- --></span></button>
+                    <button class="remove-link" title="Remove product" type="button"><span class="remove-text">Remove product</span></button>
                   </div>
                 </td>
                 <td class="cart-table-item-price"><span class="show-subhead">Price</span><span class="price-value">49,95&nbsp;&pound;</span></td>
                 <td class="cart-table-item-quantity"><span class="show-subhead">Quantity</span><div class="quantity-field"><button></button>1<button></button></div></td>
-                <td class="cart-table-item-total"><span class="show-subhead">Total price</span><span class="price-value "><!-- -->49,95&nbsp;&pound;<!-- --></span></td>
+                <td class="cart-table-item-total"><span class="show-subhead">Total price</span><span class="price-value ">49,95&nbsp;&pound;</span></td>
               </tr>
             </tbody>
           </table>
           <div class="cart-totals">
             <dl class="cart-totals-table">
               <dt class="grand-amount-title">Total amount</dt>
-              <dd class="grand-amount"><!-- -->49,95&nbsp;&pound;<!-- --><span class="grand-amount-note"><!-- -->incl. VAT<!-- --></span></dd>
+              <dd class="grand-amount">49,95&nbsp;&pound;<span class="grand-amount-note">incl. VAT</span></dd>
             </dl>
             <div>
               <router-link to="checkout">
-                <button class="cart-totals-button-checkout" type="button"><!-- -->Checkout<!-- --><span class="checkout-button-icon"></span></button>
+                <button class="cart-totals-button-checkout" type="button">Checkout<span class="checkout-button-icon"></span></button>
               </router-link>
             </div>
             <div class="checkout-buttons row"></div>

@@ -1,9 +1,57 @@
 <template>
-    <div>
-        <h3>CHECKOUT</h3>
-
-        <router-link to="confirmation">Confirm checkout</router-link>
+  <div class="checkout">
+    <div class="section">
+      <div class="wrapper">
+        <div class="content">
+          <div class="checkout-step">
+            <div class="checkout-step-content">
+              <form autocomplete="on" name="personalData">
+                <div>
+                  <h1 class="checkout-step-content-headline">Personal details</h1>
+                  <div class="ep-form-row checkout-form-group">
+                    <div class="ep-form-row-label"><span class="ep-form-row-label-text">Email address*</span><input autocomplete="email" autocorrect="off" autocapitalize="off" spellcheck="false" required="" class="ep-form-text-field checkout-Input-field" name="personalData.billingAddress.email" type="email" data-com.agilebits.onepassword.user-edited="yes"></div>
+                  </div>
+                </div>
+                <div class="checkout-button-row">
+                  <router-link to="cart" class="back-link">
+                    Back to Basket
+                  </router-link>
+                  <router-link to="confirmation">
+                    <button type="button" class="button button-primary">Buy now</button>
+                  </router-link>
+                </div>
+              </form>
+            </div>
+            <div class="checkout-step-cart">
+              <div class="checkout-step-cart-title-container">
+                <h2 class="checkout-step-cart-headline">Order overview</h2><a class="checkout-step-cart-edit" href="1004-cart.html"></a>
+              </div>
+              <ul class="checkout-step-cart-list">
+                <li class="checkout-step-cart-list-item">
+                  <a><img src="Dateien/image-1.jpg" alt="Secrid Slimwallet Vintage" width="70px"></a>
+                  <div class="checkout-product-description">
+                    <a><h2 class="checkout-product-description-headline">Secrid Slimwallet Vintage</h2></a>
+                    <div class="checkout-product-description-info"><p>Quantity: 1</p></div>
+                  </div>
+                  <span class="checkout-cart-item-price">49,95&nbsp;&pound;</span>
+                </li>
+              </ul>
+              <table class="checkout-cart-totals-table">
+                <tbody>
+                  <tr><td class="line-item-title">Subtotal</td><td class="line-item-price">49,95&nbsp;&pound;</td></tr>
+                  <tr class="separator"><td class="line-item-title">Total amount (net)</td><td class="line-item-price">41,97&nbsp;&pound;</td></tr>
+                  <tr><td class="line-item-title">VAT (20&nbsp;%)</td><td class="line-item-price">7,98&nbsp;&pound;</td></tr>
+                </tbody>
+                <tfoot>
+                  <tr><td class="grand-amount-title">Total amount</td><td class="grand-amount">49,95&nbsp;&pound;<span class="grand-amount-note">incl. VAT</span></td></tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
