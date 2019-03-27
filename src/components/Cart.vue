@@ -29,11 +29,11 @@
               />
             </tbody>
           </table>
-          <div class="cart-totals">
+          <div class="cart-totals" v-if="cart">
             <dl class="cart-totals-table">
               <dt class="grand-amount-title">Total amount</dt>
               <dd class="grand-amount">
-                49,95&nbsp;&pound;
+                {{ cart.grandTotal | formatPrice(shop) }}
                 <span class="grand-amount-note">incl. VAT</span>
               </dd>
             </dl>
@@ -73,7 +73,7 @@ export default {
       alerts: [],
       cart: null
     };
-  }
+  },
 };
 </script>
 

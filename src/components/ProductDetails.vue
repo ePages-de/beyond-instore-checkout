@@ -15,7 +15,6 @@
 
 <script>
 /* eslint-disable */
-import numeral from "numeral";
 import uriTemplates from "uri-templates";
 import _ from "lodash";
 
@@ -38,7 +37,7 @@ export default {
       var qrCodeTemplate = "https://api.qrserver.com/v1/create-qr-code/?{&size,format,data}";
       return uriTemplates(qrCodeTemplate).fill({
         size: "400x400",
-        format: "svg",
+        format: "png",
         data:  encodeURI(addToCartLink),
       });
     },
