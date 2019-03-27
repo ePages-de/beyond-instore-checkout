@@ -26,14 +26,14 @@ export default {
   methods: {
     createCart: async function() {
         if (this.cartId) {
-            console.log('=== Return existing cartId @ CartMixin')
+            console.info('=== Return existing cartId @ CartMixin')
             return this.cartId
         }
         const {data} = await this.$axios.post('/carts')
         this.cart = data
         this.$storage.set(this.storageKey, data._id);
 
-        console.log(`=== created new cart ${data._id} @ CartMixin`)
+        console.info(`=== created new cart ${data._id} @ CartMixin`)
         return data._id
     },
     putLineItem: async function(productId) {
@@ -47,6 +47,11 @@ export default {
     },
 
     getCart: async function() {
+        console.info('=== Getting current cart')
+        if (this.cartId) {
+            const {data} = await this.$axios.get(`/carts/${this.cartId}`)
+            this.cart = data
+        }
     },
     changeQuantity: async function(productId, quantity) {},
     setBillingAddress: async function(address) {},
