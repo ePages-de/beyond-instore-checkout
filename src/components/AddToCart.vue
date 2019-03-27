@@ -26,13 +26,7 @@ export default {
 
     await this.getShop();
 
-    const storageKey = `instore-cartId:${this.shop._id}`;
-
-    const cartId = this.$storage.get(storageKey);
-    if (!cartId) {
-      const newCartId = await this.createCart();
-      this.$storage.set(storageKey, newCartId);
-    }
+    await this.createCart();
 
     await this.putLineItem(this.productId);
 
