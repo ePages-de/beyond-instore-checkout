@@ -27,11 +27,11 @@
     <td class="cart-table-item-quantity">
       <span class="show-subhead">Quantity</span>
       <div class="quantity-field">
-        <button v-on:click="$emit('decreaseQuantity', lineItem._embedded.product._id)">-</button>
+        <button v-on:click="$emit('decreaseQuantity', lineItem._embedded.product._id)"><fa icon="minus-circle" size="2x" /></button>
         {{ lineItem.quantity }}
         <button
           v-on:click="$emit('increaseQuantity', lineItem._embedded.product._id)"
-        >+</button>
+        ><fa icon="plus-circle" size="2x" /></button>
       </div>
     </td>
     <td class="cart-table-item-total">
