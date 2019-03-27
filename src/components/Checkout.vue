@@ -21,13 +21,12 @@
                         class="ep-form-text-field checkout-Input-field"
                         name="personalData.billingAddress.email"
                         type="email"
-                        data-com.agilebits.onepassword.user-edited="yes"
                       >
                     </div>
                   </div>
                 </div>
                 <div class="checkout-button-row">
-                  <router-link to="cart" class="back-link">Back to Basket</router-link>
+                  <router-link to="cart" class="back-link"><fa icon="caret-left" /> Back to Basket</router-link>
                   <button type="submit" class="button button-primary">Buy now</button>
                 </div>
               </form>
@@ -155,4 +154,3 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>
-
