@@ -1,24 +1,30 @@
 <template>
-    <div>
-        <h3>CART</h3>
+  <div>
+    <h3>CART</h3>
 
-        <router-link to="checkout">Proceed to checkout</router-link>
-    </div>
+    <router-link to="checkout">Proceed to checkout</router-link>
+  </div>
 </template>
 
 <script>
 /* eslint-disable */
+import CartMixin from "@/mixins/CartMixin";
 export default {
   name: "Cart",
+
+  mixins: [CartMixin],
+
+  created: function() {
+    this.getCart();
+  },
 
   data: function() {
     return {
       alerts: [],
-      cart: null,
+      cart: null
     };
-  },
+  }
 };
-
 </script>
 
 

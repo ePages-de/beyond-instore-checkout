@@ -1,3 +1,4 @@
+/* eslint-disable */
 import _ from "lodash";
 
 export default {
@@ -17,7 +18,9 @@ export default {
     createCart: async function() {},
     putLineItem: async function(productId) {},
 
-    getCart: async function() {},
+    getCart: async function() {
+        console.log('==== getCart @ CartMixin')
+    },
     changeQuantity: async function(productId, quantity) {},
     setBillingAddress: async function(address) {},
     order: async function() {},
