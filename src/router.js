@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/components/Home'
+import AddToCart from '@/components/AddToCart'
 import Cart from '@/components/Cart'
 import Checkout from '@/components/Checkout'
 import Confirmation from '@/components/Confirmation'
@@ -14,19 +15,24 @@ export default new VueRouter({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+    }, {
+      path: '/:shop/cart/:productId',
+      name: 'AddToCart',
+      props: (route) => ({ productId: route.params.productId }),
+      component: AddToCart,
     }, {
       path: '/:shop/cart',
       name: 'Cart',
-      component: Cart
+      component: Cart,
     }, {
       path: '/:shop/checkout',
       name: 'Checkout',
-      component: Checkout
+      component: Checkout,
     }, {
       path: '/:shop/confirmation',
       name: 'Confirmation',
-      component: Confirmation
+      component: Confirmation,
     }
   ]
 })
