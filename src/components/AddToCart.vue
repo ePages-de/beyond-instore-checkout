@@ -18,7 +18,7 @@ export default {
   mounted: function() {
     console.info(`==== mounted AddToCart @ ${this.$options.name}`);
     console.info(`Adding product with id '${this.productId}' to cart`);
-    this.$router.push({ name: "Cart" });
+    this.$router.replace({ name: "Cart" });
   },
 };
 </script>
