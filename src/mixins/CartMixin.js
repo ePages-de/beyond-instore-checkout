@@ -75,6 +75,7 @@ export default {
     },
     changeQuantity: async function(productId, quantity) {},
     deleteLineItem: async function(lineItemId) {
+        console.info(`=== Deleting line item ${lineItemId}`)
         const {data} = await this.$axios.delete(`/carts/${this.getCartId()}/line-items/${lineItemId}`)
         this.cart = data
     },

@@ -24,6 +24,7 @@
             <tbody v-if="cart">
               <CartLineItem
                 v-for="lineItem in cart.lineItems"
+                v-on:deleteItem="deleteItem"
                 :key="lineItem._id"
                 :lineItem="lineItem"
               />
@@ -72,6 +73,11 @@ export default {
     return {
       alerts: []
     };
+  },
+  methods: {
+    deleteItem: function(lineItemId) {
+      this.deleteLineItem(lineItemId);
+    }
   }
 };
 </script>
