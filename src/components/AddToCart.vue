@@ -4,22 +4,40 @@
 
 <script>
 /* eslint-disable */
+import CartMixin from "@/mixins/CartMixin";
+import ShopMixin from "@/mixins/ShopMixin";
+
 export default {
   name: "AddToCart",
 
+  mixins: [ShopMixin, CartMixin],
+
   data: function() {
     return {
-      cart: null,
+      cart: null
     };
   },
 
   props: ["productId"],
 
-  mounted: function() {
+  mounted: async function() {
     console.info(`==== mounted AddToCart @ ${this.$options.name}`);
     console.info(`Adding product with id '${this.productId}' to cart`);
+
+    await this.getShop();
+
+    const storageKey = `instore-cartId:${this.shop._id}`;
+
+    const cartId = this.$storage.get(storageKey);
+    if (!cartId) {
+      const newCartId = await this.createCart();
+      this.$storage.set(storageKey, newCartId);
+    }
+
+    await this.putLineItem(this.productId);
+
     this.$router.replace({ name: "Cart" });
-  },
+  }
 };
 </script>
 

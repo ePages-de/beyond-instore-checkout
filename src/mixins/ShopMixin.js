@@ -47,7 +47,7 @@ export default {
 
   methods: {
     getShop: async function() {
-      this.$axios
+      return this.$axios
         .request({ url: "/shop" })
         .then(response => {
           this.shop = _.get(response, "data", {});
@@ -118,4 +118,4 @@ export default {
         });
     },
   }
-}  
+}
