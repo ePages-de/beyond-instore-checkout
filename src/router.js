@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/components/Home'
 import Cart from '@/components/Cart'
+import Checkout from '@/components/Checkout'
 
 Vue.use(VueRouter)
 
@@ -17,6 +18,10 @@ export default new VueRouter({
       path: '/:shop/cart',
       name: 'Cart',
       component: Cart
+    }, {
+      path: '/:shop/checkout',
+      name: 'Checkout',
+      component: Checkout
     }
   ]
 })

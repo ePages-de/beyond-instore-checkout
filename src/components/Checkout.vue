@@ -1,15 +1,13 @@
 <template>
     <div>
-        <h3>CART</h3>
-
-        <router-link to="checkout">Proceed to checkout</router-link>
+        <h3>CHECKOUT</h3>
     </div>
 </template>
 
 <script>
 /* eslint-disable */
 export default {
-  name: "Cart",
+  name: "Checkout",
 
   data: function() {
     return {
@@ -18,7 +16,6 @@ export default {
     };
   },
 };
-
 </script>
 
 
