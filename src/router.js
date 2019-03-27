@@ -5,6 +5,7 @@ import AddToCart from '@/components/AddToCart'
 import Cart from '@/components/Cart'
 import Checkout from '@/components/Checkout'
 import Confirmation from '@/components/Confirmation'
+import ProductList from '@/components/ProductList'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,10 @@ export default new VueRouter({
       path: '/:shop/confirmation',
       name: 'Confirmation',
       component: Confirmation,
+    }, {
+      path: '/:shop/products',
+      name: 'ProductList',
+      component: ProductList,
     }
   ]
 })
