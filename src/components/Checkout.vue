@@ -28,14 +28,14 @@
               <div class="checkout-step-cart-title-container">
                 <h2 class="checkout-step-cart-headline">Order overview</h2><a class="checkout-step-cart-edit" href="1004-cart.html"></a>
               </div>
-              <ul class="checkout-step-cart-list">
+              <ul class="checkout-step-cart-list" v-for="lineItem in cart.lineItems" :key="lineItem._id">
                 <li class="checkout-step-cart-list-item">
-                  <a><img src="Dateien/image-1.jpg" alt="Secrid Slimwallet Vintage" width="70px"></a>
+                  <a><img :src="lineItem._embedded.product | imageLink" :alt="lineItem.name" width="70px"></a>
                   <div class="checkout-product-description">
-                    <a><h2 class="checkout-product-description-headline">Secrid Slimwallet Vintage</h2></a>
-                    <div class="checkout-product-description-info"><p>Quantity: 1</p></div>
+                    <a><h2 class="checkout-product-description-headline">{{ lineItem.name }}</h2></a>
+                    <div class="checkout-product-description-info"><p>Quantity: {{ lineItem.quantity }}</p></div>
                   </div>
-                  <span class="checkout-cart-item-price">49,95&nbsp;&pound;</span>
+                  <span class="checkout-cart-item-price">{{ lineItem.lineItemPrice | formatPrice(shop) }}</span>
                 </li>
               </ul>
               <table class="checkout-cart-totals-table">
@@ -72,6 +72,8 @@
 <script>
 /* eslint-disable */
 import CartMixin from "@/mixins/CartMixin";
+import uriTemplates from "uri-templates";
+import _ from "lodash";
 
 export default {
   name: "Checkout",
@@ -87,6 +89,13 @@ export default {
       alerts: [],
       cart: null,
     };
+  },
+
+  filters: {
+    imageLink: function(product) {
+      var href = _.get(product, "_links[default-image-data].href", "https://dummyimage.com/{width}x{height}/ffffff/0011ff.png&text=no+image");
+      return uriTemplates(href).fill({ width: 400, height: 200 });
+    },
   },
 };
 </script>
