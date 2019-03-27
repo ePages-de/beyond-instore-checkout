@@ -7,7 +7,7 @@
     <b-nav-text>{{ shopName }}</b-nav-text>
 
     <b-navbar-nav class="font-weight-bold">
-      <b-nav-item to="/install">Install</b-nav-item>
+    <b-nav-text>&copy;2019</b-nav-text>
     </b-navbar-nav>
   </b-navbar>
 </template>
