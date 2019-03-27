@@ -85,8 +85,14 @@ export default {
       );
       this.cart = data;
     },
-    setBillingAddress: async function(address) {},
-    setShippingAddress: async function(address) {},
+    setBillingAddress: async function(address) {
+      console.info(
+        `=== Setting billing address for '${address.email}' to cart @ CartMixin`
+      );
+    },
+    setShippingAddress: async function(address) {
+      console.info(`=== Setting shipping address to cart @ CartMixin`);
+    },
     orderCart: async function() {
       console.info("=== Ordering current cart");
     }

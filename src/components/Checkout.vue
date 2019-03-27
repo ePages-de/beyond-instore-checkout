@@ -138,10 +138,9 @@ export default {
   methods: {
     submitForm: async function() {
       console.info(`=== submitForm @ Checkout`);
+      var shippingAddress = Object.create(this.shopSettings.address);
       var billingAddress = Object.create(this.shopSettings.address);
       billingAddress.email = this.email;
-      var shippingAddress = Object.create(this.shopSettings.address);
-      shippingAddress.email = this.email;
 
       await this.setBillingAddress(this.billingAddress);
       await this.setShippingAddress(this.shippingAddress);
