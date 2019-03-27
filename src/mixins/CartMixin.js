@@ -100,6 +100,11 @@ export default {
       console.info(
         `=== Setting billing address for '${address.email}' to cart @ CartMixin`
       );
+      const { data } = await this.$axios.put(
+        `/carts/${this.getCartId()}/billing-address`,
+        address
+      );
+      this.cart = data;
     },
     setShippingAddress: async function(address) {
       console.info(`=== Setting shipping address to cart @ CartMixin`);
@@ -107,6 +112,14 @@ export default {
     },
     orderCart: async function() {
       console.info("=== Ordering current cart");
+
+      await this.$axios.post(`/carts/${this.getCartId()}/order`, {
+        salesChannel: "instore",
+        marketingChannel: "qr-code",
+        testOrder: false,
+        termsAndConditionsExplicitlyAccepted: false
+      });
+      this.$storage.remove(this.storageKey);
     }
   }
 };

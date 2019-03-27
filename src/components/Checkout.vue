@@ -130,21 +130,20 @@ export default {
     this.getCart();
   },
 
-  mounted: function() {
-    console.info(`==== mounted Checkout @ ${this.$options.name}`);
-  },
-
   methods: {
     submitForm: async function() {
       console.info(`=== submitForm @ Checkout`);
-      var shippingAddress = Object.create(this.shopSettings.address);
-      var billingAddress = Object.create(this.shopSettings.address);
-      billingAddress.email = this.email;
 
-      await this.setBillingAddress(this.billingAddress);
-      await this.setShippingAddress(this.shippingAddress);
+      var billingAddress = Object.assign({}, this.shopSettings.address, {
+        email: this.email
+      });
+      console.info(billingAddress);
+
+      await this.setBillingAddress(billingAddress);
       await this.orderCart();
-      //this.$router.push({ name: "Confirmation" });
+      this.email = null;
+      this.cart = null;
+      this.$router.push({ name: "Confirmation" });
     }
   }
 };
