@@ -4,38 +4,61 @@
       <div class="wrapper">
         <div class="content">
           <div class="checkout-step">
-
             <div class="checkout-step-content">
-              <form autocomplete="on" name="personalData">
+              <form autocomplete="on" name="personalData" v-on:submit.prevent="submitForm">
                 <div>
                   <h1 class="checkout-step-content-headline">Personal details</h1>
                   <div class="ep-form-row checkout-form-group">
-                    <div class="ep-form-row-label"><span class="ep-form-row-label-text">Email address*</span><input autocomplete="email" autocorrect="off" autocapitalize="off" spellcheck="false" required="" class="ep-form-text-field checkout-Input-field" name="personalData.billingAddress.email" type="email" data-com.agilebits.onepassword.user-edited="yes"></div>
+                    <div class="ep-form-row-label">
+                      <span class="ep-form-row-label-text">Email address*</span>
+                      <input
+                        v-model="email"
+                        autocomplete="email"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                        required
+                        class="ep-form-text-field checkout-Input-field"
+                        name="personalData.billingAddress.email"
+                        type="email"
+                        data-com.agilebits.onepassword.user-edited="yes"
+                      >
+                    </div>
                   </div>
                 </div>
                 <div class="checkout-button-row">
-                  <router-link to="cart" class="back-link">
-                    Back to Basket
-                  </router-link>
-                  <router-link to="confirmation">
-                    <button type="button" class="button button-primary">Buy now</button>
-                  </router-link>
+                  <router-link to="cart" class="back-link">Back to Basket</router-link>
+                  <button type="submit" class="button button-primary">Buy now</button>
                 </div>
               </form>
             </div>
 
             <div class="checkout-step-cart" v-if="cart">
               <div class="checkout-step-cart-title-container">
-                <h2 class="checkout-step-cart-headline">Order overview</h2><a class="checkout-step-cart-edit" href="1004-cart.html"></a>
+                <h2 class="checkout-step-cart-headline">Order overview</h2>
               </div>
-              <ul class="checkout-step-cart-list" v-for="lineItem in cart.lineItems" :key="lineItem._id">
+              <ul
+                class="checkout-step-cart-list"
+                v-for="lineItem in cart.lineItems"
+                :key="lineItem._id"
+              >
                 <li class="checkout-step-cart-list-item">
-                  <a><img :src="lineItem._embedded.product | imageLink" :alt="lineItem.name" width="70px"></a>
+                  <img
+                    :src="lineItem._embedded.product | imageLink"
+                    :alt="lineItem.name"
+                    width="70px"
+                  >
                   <div class="checkout-product-description">
-                    <a><h2 class="checkout-product-description-headline">{{ lineItem.name }}</h2></a>
-                    <div class="checkout-product-description-info"><p>Quantity: {{ lineItem.quantity }}</p></div>
+                    <a>
+                      <h2 class="checkout-product-description-headline">{{ lineItem.name }}</h2>
+                    </a>
+                    <div class="checkout-product-description-info">
+                      <p>Quantity: {{ lineItem.quantity }}</p>
+                    </div>
                   </div>
-                  <span class="checkout-cart-item-price">{{ lineItem.lineItemPrice | formatPrice(shop) }}</span>
+                  <span
+                    class="checkout-cart-item-price"
+                  >{{ lineItem.lineItemPrice | formatPrice(shop) }}</span>
                 </li>
               </ul>
               <table class="checkout-cart-totals-table">
@@ -56,12 +79,16 @@
                 <tfoot>
                   <tr>
                     <td class="grand-amount-title">Total amount</td>
-                    <td class="grand-amount">{{ cart.grandTotal | formatPrice(shop) }} <span class="grand-amount-note">incl. VAT</span></td>
+                    <td class="grand-amount">
+                      {{ cart.grandTotal | formatPrice(shop) }}
+                      <span
+                        class="grand-amount-note"
+                      >incl. VAT</span>
+                    </td>
                   </tr>
                 </tfoot>
               </table>
             </div>
-
           </div>
         </div>
       </div>
@@ -80,23 +107,48 @@ export default {
 
   mixins: [CartMixin],
 
-  created: function() {
-    this.getCart();
-  },
-
   data: function() {
     return {
       alerts: [],
       cart: null,
+      email: null
     };
   },
 
   filters: {
     imageLink: function(product) {
-      var href = _.get(product, "_links[default-image-data].href", "https://dummyimage.com/{width}x{height}/ffffff/0011ff.png&text=no+image");
+      var href = _.get(
+        product,
+        "_links[default-image-data].href",
+        "https://dummyimage.com/{width}x{height}/ffffff/0011ff.png&text=no+image"
+      );
       return uriTemplates(href).fill({ width: 400, height: 200 });
-    },
+    }
   },
+
+  created: function() {
+    console.info(`==== created Checkout @ ${this.$options.name}`);
+    this.getCart();
+  },
+
+  mounted: function() {
+    console.info(`==== mounted Checkout @ ${this.$options.name}`);
+  },
+
+  methods: {
+    submitForm: async function() {
+      console.info(`=== submitForm @ Checkout`);
+      var billingAddress = Object.create(this.shopSettings.address);
+      billingAddress.email = this.email;
+      var shippingAddress = Object.create(this.shopSettings.address);
+      shippingAddress.email = this.email;
+
+      await this.setBillingAddress(this.billingAddress);
+      await this.setShippingAddress(this.shippingAddress);
+      await this.orderCart();
+      //this.$router.push({ name: "Confirmation" });
+    }
+  }
 };
 </script>
 

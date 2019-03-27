@@ -1,5 +1,5 @@
 /* eslint-disable */
-import ShopMixin from '@/mixins/ShopMixin'
+import ShopMixin from "@/mixins/ShopMixin";
 import _ from "lodash";
 
 export default {
@@ -7,78 +7,88 @@ export default {
 
   mixins: [ShopMixin],
 
-  data: function () {
+  data: function() {
     return {
-      cart: {},
+      cart: {}
     };
   },
 
   mounted: function() {
-      this.getCart()
+    this.getCart();
   },
 
   computed: {
-      storageKey: function() {
-          return `instore-cartId:${this.$route.params.shop}`;
-      },
+    storageKey: function() {
+      return `instore-cartId:${this.$route.params.shop}`;
+    }
+  },
+
+  filters: {
+    formatPrice: function(price, shop) {
+      return new Intl.NumberFormat(shop.defaultLocale, {
+        style: "currency",
+        currency: price.currency
+      }).format(price.amount);
     },
 
-    filters: {
-        formatPrice: function(price, shop) {
-          return new Intl.NumberFormat(shop.defaultLocale, {
-            style: "currency",
-            currency: price.currency
-          }).format(price.amount);
-        },
-
-        formatPercentage: function(percentage, shop) {
-          return new Intl.NumberFormat(shop.defaultLocale, {
-            style: 'percent',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2
-          }).format(percentage);
-        }
-    },
+    formatPercentage: function(percentage, shop) {
+      return new Intl.NumberFormat(shop.defaultLocale, {
+        style: "percent",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      }).format(percentage);
+    }
+  },
 
   methods: {
-      getCartId: function() {
-        return this.$storage.get(this.storageKey)
-      },
+    getCartId: function() {
+      return this.$storage.get(this.storageKey);
+    },
     createCart: async function() {
-        if (this.getCartId()) {
-            console.info('=== Return existing cartId @ CartMixin')
-            return this.getCartId()
-        }
-        const {data} = await this.$axios.post('/carts')
-        this.cart = data
-        this.$storage.set(this.storageKey, data._id);
+      if (this.getCartId()) {
+        console.info("=== Return existing cartId @ CartMixin");
+        return this.getCartId();
+      }
+      const { data } = await this.$axios.post("/carts");
+      this.cart = data;
+      this.$storage.set(this.storageKey, data._id);
 
-        console.info(`=== created new cart ${data._id} @ CartMixin`)
-        return data._id
+      console.info(`=== created new cart ${data._id} @ CartMixin`);
+      return data._id;
     },
     putLineItem: async function(productId, quantity = 1) {
-        console.info(`=== Adding product with id '${productId}' to cart @ CartMixin`);
-        const {data} = await this.$axios.post(`/carts/${this.getCartId()}/line-items`, {
-            quantity,
-            _ref: productId,
-            _type: 'PRODUCT'
-        })
-        this.cart = data
+      console.info(
+        `=== Adding product with id '${productId}' to cart @ CartMixin`
+      );
+      const { data } = await this.$axios.post(
+        `/carts/${this.getCartId()}/line-items`,
+        {
+          quantity,
+          _ref: productId,
+          _type: "PRODUCT"
+        }
+      );
+      this.cart = data;
     },
 
     getCart: async function() {
-        console.info('=== Getting current cart')
-        if (this.getCartId()) {
-            const {data} = await this.$axios.get(`/carts/${this.getCartId()}`)
-            this.cart = data
-        }
+      console.info("=== Getting current cart");
+      if (this.getCartId()) {
+        const { data } = await this.$axios.get(`/carts/${this.getCartId()}`);
+        this.cart = data;
+      }
     },
     deleteLineItem: async function(lineItemId) {
-        console.info(`=== Deleting line item ${lineItemId}`)
-        const {data} = await this.$axios.delete(`/carts/${this.getCartId()}/line-items/${lineItemId}`)
-        this.cart = data
+      console.info(`=== Deleting line item ${lineItemId}`);
+      const { data } = await this.$axios.delete(
+        `/carts/${this.getCartId()}/line-items/${lineItemId}`
+      );
+      this.cart = data;
     },
     setBillingAddress: async function(address) {},
-    orderCart: async function() {},
-  },
-}
+    setShippingAddress: async function(address) {},
+    orderCart: async function() {
+      console.info("=== Ordering current cart");
+    }
+  }
+};

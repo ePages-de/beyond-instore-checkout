@@ -4,33 +4,41 @@ import _ from "lodash";
 export default {
   name: "ShopMixin",
 
-  data: function () {
+  data: function() {
     return {
       shop: {},
       shopAttributes: [],
       shopImages: [],
       privacyPolicy: null,
       termsAndConditions: null,
-      rightOfWithdrawal: null,
+      rightOfWithdrawal: null
     };
   },
 
   computed: {
     shopSettings: function() {
-      var address = this.shopAttributes.find(element => element.name === 'instore-checkout:address');
-      address = (address ? JSON.parse(address.value) : null);
-      Object.keys(address).forEach((key) => (address[key] == null) && delete address[key]);
+      var address = this.shopAttributes.find(
+        element => element.name === "instore-checkout:address"
+      );
+      address = address ? JSON.parse(address.value) : null;
+      Object.keys(address).forEach(
+        key => address[key] == null && delete address[key]
+      );
 
-      var paymentMethod = this.shopAttributes.find(element => element.name === 'instore-checkout:payment-method');
-      paymentMethod = (paymentMethod ? paymentMethod.value : null);
+      var paymentMethod = this.shopAttributes.find(
+        element => element.name === "instore-checkout:payment-method"
+      );
+      paymentMethod = paymentMethod ? paymentMethod.value : null;
 
-      var shippingMethod = this.shopAttributes.find(element => element.name === 'instore-checkout:shipping-method');
-      shippingMethod = (shippingMethod ? shippingMethod.value : null);
+      var shippingMethod = this.shopAttributes.find(
+        element => element.name === "instore-checkout:shipping-method"
+      );
+      shippingMethod = shippingMethod ? shippingMethod.value : null;
 
       return {
         address: address,
         paymentMethod: paymentMethod,
-        shippingMethod: shippingMethod,
+        shippingMethod: shippingMethod
       };
     }
   },
@@ -60,9 +68,13 @@ export default {
 
     getShopAttributes: async function() {
       this.$axios
-        .request({url: "/shop/attributes", params: {size: 100 } })
+        .request({ url: "/shop/attributes", params: { size: 100 } })
         .then(response => {
-          this.shopAttributes = _.get(response, "data._embedded.attributes", []);
+          this.shopAttributes = _.get(
+            response,
+            "data._embedded.attributes",
+            []
+          );
         })
         .catch(e => {
           console.error(e);
@@ -116,6 +128,6 @@ export default {
           console.error(e);
           this.alerts.push({ message: "error fetching right of withdrawal" });
         });
-    },
+    }
   }
-}
+};
