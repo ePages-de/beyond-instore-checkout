@@ -18,16 +18,16 @@ export default {
       storageKey: function() {
           return `instore-cartId:${this.$route.params.shop}`;
       },
-      cartId: function() {
-        return this.$storage.get(this.storageKey)
-      }
-  },
+    },
 
   methods: {
+      getCartId: function() {
+        return this.$storage.get(this.storageKey)
+      },
     createCart: async function() {
-        if (this.cartId) {
+        if (this.getCartId()) {
             console.info('=== Return existing cartId @ CartMixin')
-            return this.cartId
+            return this.getCartId()
         }
         const {data} = await this.$axios.post('/carts')
         this.cart = data
@@ -38,7 +38,7 @@ export default {
     },
     putLineItem: async function(productId) {
         console.info(`=== Adding product with id '${productId}' to cart @ CartMixin`);
-        const {data} = await this.$axios.post(`/carts/${this.cartId}/line-items`, {
+        const {data} = await this.$axios.post(`/carts/${this.getCartId()}/line-items`, {
             quantity: 1,
             _ref: productId,
             _type: 'PRODUCT'
@@ -48,8 +48,8 @@ export default {
 
     getCart: async function() {
         console.info('=== Getting current cart')
-        if (this.cartId) {
-            const {data} = await this.$axios.get(`/carts/${this.cartId}`)
+        if (this.getCartId()) {
+            const {data} = await this.$axios.get(`/carts/${this.getCartId()}`)
             this.cart = data
         }
     },
