@@ -25,6 +25,8 @@
               <CartLineItem
                 v-for="lineItem in cart.lineItems"
                 v-on:deleteItem="deleteItem"
+                v-on:increaseQuantity="increaseQuantity"
+                v-on:decreaseQuantity="decreaseQuantity"
                 :key="lineItem._id"
                 :lineItem="lineItem"
               />
@@ -77,6 +79,14 @@ export default {
   methods: {
     deleteItem: function(lineItemId) {
       this.deleteLineItem(lineItemId);
+    },
+    increaseQuantity: function(productId) {
+      console.info(`=== Increase quantity ${productId} @ Cart`);
+      this.putLineItem(productId);
+    },
+    decreaseQuantity: function(productId) {
+      console.info(`=== Decrease quantity ${productId} @ Cart`);
+      this.putLineItem(productId, -1);
     }
   }
 };

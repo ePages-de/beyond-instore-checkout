@@ -56,10 +56,10 @@ export default {
         console.info(`=== created new cart ${data._id} @ CartMixin`)
         return data._id
     },
-    putLineItem: async function(productId) {
+    putLineItem: async function(productId, quantity = 1) {
         console.info(`=== Adding product with id '${productId}' to cart @ CartMixin`);
         const {data} = await this.$axios.post(`/carts/${this.getCartId()}/line-items`, {
-            quantity: 1,
+            quantity,
             _ref: productId,
             _type: 'PRODUCT'
         })
@@ -73,7 +73,6 @@ export default {
             this.cart = data
         }
     },
-    changeQuantity: async function(productId, quantity) {},
     deleteLineItem: async function(lineItemId) {
         console.info(`=== Deleting line item ${lineItemId}`)
         const {data} = await this.$axios.delete(`/carts/${this.getCartId()}/line-items/${lineItemId}`)
