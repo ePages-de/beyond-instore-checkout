@@ -1,20 +1,17 @@
 <template>
     <div>
-        <h3>CHECKOUT</h3>
-
-        <router-link to="confirmation">Confirm checkout</router-link>
+        <h3>CONFIRMATION</h3>
     </div>
 </template>
 
 <script>
 /* eslint-disable */
 export default {
-  name: "Checkout",
+  name: "Confirmation",
 
   data: function() {
     return {
       alerts: [],
-      cart: null,
     };
   },
 };
