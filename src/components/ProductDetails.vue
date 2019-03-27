@@ -1,16 +1,20 @@
 <template>
   <div class="card text-center">
-    <a :href="qrCodeLink">
     <div class="card-body">
-      <h5 class="card-title">
-        {{ product.name }}
-      </h5>
+      <h5 class="card-title">{{ product.name }}</h5>
       <div class="card-text">
-        <img class="card-img-top img-thumbnail p-0 m-0" :src="imageLink" :alt="product.name"/>
+        <img class="card-img-top img-thumbnail p-0 m-0" :src="imageLink" :alt="product.name">
+        <div v-if="!product.variations || variations.length" class="qr-codes">
+          QR Codes:
+          <a
+            v-for="qrcode in qrcodes"
+            :href="qrcode.href"
+            :key="qrcode.href"
+          >{{qrcode.name}}</a>
+        </div>
       </div>
     </div>
-    </a>
-  </div>    
+  </div>
 </template>
 
 <script>
@@ -23,26 +27,69 @@ export default {
 
   props: ["product", "alerts"],
 
+  data: function() {
+    return {
+      variations: null
+    };
+  },
+
+  created: function() {
+    this.loadVariations();
+  },
+
   computed: {
+    qrcodes: function() {
+      if (!this.product.variationAttributes) {
+        return [
+          {
+            name: this.product.name,
+            href: this.getQrCodeLink(this.product._id)
+          }
+        ];
+      }
+      if (this.variations) {
+        return this.variations.map(variation => ({
+          name: variation.variationAttributeValues
+            .map(value => value.value)
+            .join(" "),
+          href: this.getQrCodeLink(variation._id)
+        }));
+      }
+    },
     imageLink: function() {
       var link = _.get(this.product, "_links[default-image-data]", null);
       return link
         ? uriTemplates(link.href).fill({ width: 400, height: 200 })
         : "https://dummyimage.com/400x200/ffffff/0011ff.png&text=no+image";
-    },
+    }
+  },
 
-    qrCodeLink: function() {
-      var addToCartTemplate = "https://beyond-instore-checkout.herokuapp.com/{shop}/cart/{productId}";
-      var addToCartLink = uriTemplates(addToCartTemplate).fill({ shop: this.$route.params.shop, productId: this.product._id});
-      var qrCodeTemplate = "https://api.qrserver.com/v1/create-qr-code/?{&size,format,data}";
+  methods: {
+    loadVariations: async function() {
+      if (this.product.variationAttributes) {
+        const { data: product } = await this.$axios.get(
+          this.product._links.self.href
+        );
+        this.variations = product.variations;
+      }
+    },
+    getQrCodeLink: function(productId) {
+      var addToCartTemplate =
+        "https://beyond-instore-checkout.herokuapp.com/{shop}/cart/{productId}";
+      var addToCartLink = uriTemplates(addToCartTemplate).fill({
+        shop: this.$route.params.shop,
+        productId: productId
+      });
+      var qrCodeTemplate =
+        "https://api.qrserver.com/v1/create-qr-code/?{&size,format,data}";
       return uriTemplates(qrCodeTemplate).fill({
         size: "400x400",
         format: "png",
-        data:  encodeURI(addToCartLink),
+        data: encodeURI(addToCartLink)
       });
-    },
-  },
-}
+    }
+  }
+};
 </script>
 
 
@@ -50,12 +97,16 @@ export default {
 <style scoped>
 .card {
   width: 23vw;
-  height: 30vw;
+  min-height: 30vw;
   box-shadow: 2px 0px 10px #aaa;
   cursor: pointer;
 }
 
 .card-img-top {
   height: 80%;
+}
+
+.qr-codes a {
+  padding: 5px;
 }
 </style>
