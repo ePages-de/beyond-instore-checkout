@@ -3,7 +3,7 @@
     "description": "Checkout application for BEYOND Instore",
     "website": "https://instore.beyondshop.cloud/",
     "repository": "https://github.com/ePages-de/beyond-instore-checkout",
-    "logo": "https://newsroom.epages.com/wp-content/uploads/2018/05/epages_logo-cmyk.jpg",
+    "logo": "https://raw.githubusercontent.com/ePages-de/beyond-instore-checkout/master/public/apple-touch-icon.png?raw=true",
     "keywords": [
         "vuejs",
         "beyond",
