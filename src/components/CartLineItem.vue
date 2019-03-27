@@ -22,18 +22,19 @@
     </td>
     <td class="cart-table-item-price">
       <span class="show-subhead">Price</span>
-      <span class="price-value">49,95&nbsp;&pound;</span>
+      <span class="price-value">{{ lineItem.singleItemPrice | formatPrice(shop) }}</span>
     </td>
     <td class="cart-table-item-quantity">
       <span class="show-subhead">Quantity</span>
       <div class="quantity-field">
-        <button></button>1
+        <button></button>
+        {{ lineItem.quantity }}
         <button></button>
       </div>
     </td>
     <td class="cart-table-item-total">
       <span class="show-subhead">Total price</span>
-      <span class="price-value">49,95&nbsp;&pound;</span>
+      <span class="price-value">{{ lineItem.lineItemPrice | formatPrice(shop) }}</span>
     </td>
   </tr>
 </template>
@@ -42,9 +43,13 @@
 import uriTemplates from "uri-templates";
 import _ from "lodash";
 
+import ShopMixin from "@/mixins/ShopMixin";
+import CartMixin from "@/mixins/CartMixin";
+
 export default {
   name: "CartLineItem",
   props: ["lineItem"],
+  mixins: [ShopMixin, CartMixin],
   computed: {
     imageSrcSet: function() {
       return `${this.imageLink(180)} 180w, ${this.imageLink(
@@ -52,15 +57,9 @@ export default {
       )} 360w, ${this.imageLink(540)} 540w, ${this.imageLink(
         720
       )} 720w, ${this.imageLink(900)} 900w`;
-    },
-    price: function() {}
+    }
   },
   methods: {
-    imgSrcSet: function() {
-      return `${imageLink(180)} 180w, ${imageLink(360)} 360w, ${imageLink(
-        540
-      )} 540w, ${imageLink(720)} 720w, ${imageLink(900)} 900w`;
-    },
     imageLink: function(width, height = 2560) {
       var link = _.get(
         this.lineItem,

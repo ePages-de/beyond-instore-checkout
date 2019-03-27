@@ -1,8 +1,11 @@
 /* eslint-disable */
+import ShopMixin from '@/mixins/ShopMixin'
 import _ from "lodash";
 
 export default {
   name: "CartMixin",
+
+  mixins: [ShopMixin],
 
   data: function () {
     return {
@@ -18,6 +21,15 @@ export default {
       storageKey: function() {
           return `instore-cartId:${this.$route.params.shop}`;
       },
+    },
+
+    filters: {
+        formatPrice: function(price, shop) {
+            return new Intl.NumberFormat(shop.defaultLocale, {
+                style: "currency",
+                currency: price.currency
+            }).format(price.amount);
+        }
     },
 
   methods: {
