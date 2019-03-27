@@ -66,6 +66,10 @@ export default {
         }
     },
     changeQuantity: async function(productId, quantity) {},
+    deleteLineItem: async function(lineItemId) {
+        const {data} = await this.$axios.delete(`/carts/${this.getCartId()}/line-items/${lineItemId}`)
+        this.cart = data
+    },
     setBillingAddress: async function(address) {},
     orderCart: async function() {},
   },

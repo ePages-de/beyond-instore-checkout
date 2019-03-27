@@ -29,7 +29,7 @@
               />
             </tbody>
           </table>
-          <div class="cart-totals" v-if="cart">
+          <div class="cart-totals" v-if="cart._id">
             <dl class="cart-totals-table">
               <dt class="grand-amount-title">Total amount</dt>
               <dd class="grand-amount">
@@ -70,10 +70,9 @@ export default {
 
   data: function() {
     return {
-      alerts: [],
-      cart: null
+      alerts: []
     };
-  },
+  }
 };
 </script>
 

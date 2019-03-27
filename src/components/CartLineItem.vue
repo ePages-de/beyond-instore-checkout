@@ -16,7 +16,7 @@
         </a>
         <p class="essential-features"></p>
         <button class="remove-link" title="Remove product" type="button">
-          <span class="remove-text">Remove product</span>
+          <span class="remove-text" v-on:click="deleteItem">Remove product</span>
         </button>
       </div>
     </td>
@@ -60,6 +60,9 @@ export default {
     }
   },
   methods: {
+    deleteItem: function() {
+      this.deleteLineItem(this.lineItem._id);
+    },
     imageLink: function(width, height = 2560) {
       var link = _.get(
         this.lineItem,
