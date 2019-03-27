@@ -4,6 +4,7 @@
       <div class="wrapper">
         <div class="content">
           <div class="checkout-step">
+
             <div class="checkout-step-content">
               <form autocomplete="on" name="personalData">
                 <div>
@@ -22,7 +23,8 @@
                 </div>
               </form>
             </div>
-            <div class="checkout-step-cart">
+
+            <div class="checkout-step-cart" v-if="cart">
               <div class="checkout-step-cart-title-container">
                 <h2 class="checkout-step-cart-headline">Order overview</h2><a class="checkout-step-cart-edit" href="1004-cart.html"></a>
               </div>
@@ -38,15 +40,28 @@
               </ul>
               <table class="checkout-cart-totals-table">
                 <tbody>
-                  <tr><td class="line-item-title">Subtotal</td><td class="line-item-price">49,95&nbsp;&pound;</td></tr>
-                  <tr class="separator"><td class="line-item-title">Total amount (net)</td><td class="line-item-price">41,97&nbsp;&pound;</td></tr>
-                  <tr><td class="line-item-title">VAT (20&nbsp;%)</td><td class="line-item-price">7,98&nbsp;&pound;</td></tr>
+                  <tr>
+                    <td class="line-item-title">Subtotal</td>
+                    <td class="line-item-price">{{ cart.subtotal | formatPrice(shop) }}</td>
+                  </tr>
+                  <tr class="separator">
+                    <td class="line-item-title">Total amount (net)</td>
+                    <td class="line-item-price">{{ cart.netTotal | formatPrice(shop) }}</td>
+                  </tr>
+                  <tr v-for="tax in cart.taxes" :key="tax.taxClass">
+                    <td class="line-item-title">VAT ({{ tax.taxRate | formatPercentage(shop) }})</td>
+                    <td class="line-item-price">{{ tax | formatPrice(shop) }}</td>
+                  </tr>
                 </tbody>
                 <tfoot>
-                  <tr><td class="grand-amount-title">Total amount</td><td class="grand-amount">49,95&nbsp;&pound;<span class="grand-amount-note">incl. VAT</span></td></tr>
+                  <tr>
+                    <td class="grand-amount-title">Total amount</td>
+                    <td class="grand-amount">{{ cart.grandTotal | formatPrice(shop) }} <span class="grand-amount-note">incl. VAT</span></td>
+                  </tr>
                 </tfoot>
               </table>
             </div>
+
           </div>
         </div>
       </div>
@@ -56,8 +71,16 @@
 
 <script>
 /* eslint-disable */
+import CartMixin from "@/mixins/CartMixin";
+
 export default {
   name: "Checkout",
+
+  mixins: [CartMixin],
+
+  created: function() {
+    this.getCart();
+  },
 
   data: function() {
     return {
