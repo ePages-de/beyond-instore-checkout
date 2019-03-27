@@ -46,14 +46,21 @@ export default {
   name: "CartLineItem",
   props: ["lineItem"],
   computed: {
+    imageSrcSet: function() {
+      return `${this.imageLink(180)} 180w, ${this.imageLink(
+        360
+      )} 360w, ${this.imageLink(540)} 540w, ${this.imageLink(
+        720
+      )} 720w, ${this.imageLink(900)} 900w`;
+    },
+    price: function() {}
+  },
+  methods: {
     imgSrcSet: function() {
       return `${imageLink(180)} 180w, ${imageLink(360)} 360w, ${imageLink(
         540
       )} 540w, ${imageLink(720)} 720w, ${imageLink(900)} 900w`;
     },
-    price: function() {}
-  },
-  methods: {
     imageLink: function(width, height = 2560) {
       var link = _.get(
         this.lineItem,
