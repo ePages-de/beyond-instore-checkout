@@ -22,7 +22,7 @@ export default {
       );
       address = address ? JSON.parse(address.value) : null;
       Object.keys(address).forEach(
-        key => address[key] == null && delete address[key]
+        key => address[key] === null && delete address[key]
       );
 
       var paymentMethod = this.shopAttributes.find(
@@ -67,7 +67,7 @@ export default {
     },
 
     getShopAttributes: async function() {
-      this.$axios
+      return this.$axios
         .request({ url: "/shop/attributes", params: { size: 100 } })
         .then(response => {
           this.shopAttributes = _.get(

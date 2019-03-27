@@ -49,12 +49,23 @@ export default {
         console.info("=== Return existing cartId @ CartMixin");
         return this.getCartId();
       }
-      const { data } = await this.$axios.post("/carts");
-      this.cart = data;
-      this.$storage.set(this.storageKey, data._id);
 
-      console.info(`=== created new cart ${data._id} @ CartMixin`);
-      return data._id;
+      await this.getShopAttributes()
+      const { data } = await this.$axios.post("/carts");
+      this.$storage.set(this.storageKey, data._id);
+      this.cart = data;
+
+      try {
+        await this.setShippingAddress(this.shopSettings.address)
+        await this.$axios.put(`/carts/${this.getCartId()}/payment-methods/current`, this.shopSettings.paymentMethod, {headers: { 'content-type': 'text/uri-list' }})
+        await this.$axios.put(`/carts/${this.getCartId()}/shipping-methods/current`, this.shopSettings.shippingMethod, {headers: { 'content-type': 'text/uri-list' }})
+
+        console.info(`=== created new cart ${this.getCartId()} @ CartMixin`);
+        return this.getCartId();
+      } catch (_error) {
+        this.$storage.set(this.storageKey, null)
+      }
+
     },
     putLineItem: async function(productId, quantity = 1) {
       console.info(
@@ -92,6 +103,7 @@ export default {
     },
     setShippingAddress: async function(address) {
       console.info(`=== Setting shipping address to cart @ CartMixin`);
+      await this.$axios.put(`/carts/${this.getCartId()}/shipping-address`, address)
     },
     orderCart: async function() {
       console.info("=== Ordering current cart");
