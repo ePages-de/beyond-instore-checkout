@@ -26,7 +26,9 @@
                   </div>
                 </div>
                 <div class="checkout-button-row">
-                  <router-link to="cart" class="back-link"><fa icon="caret-left" /> Back to Basket</router-link>
+                  <router-link to="cart" class="back-link">
+                    <fa icon="caret-left"/>Back to Basket
+                  </router-link>
                   <button type="submit" class="button button-primary">Buy now</button>
                 </div>
               </form>
@@ -97,6 +99,7 @@
 
 <script>
 /* eslint-disable */
+import ShopMixin from "@/mixins/ShopMixin";
 import CartMixin from "@/mixins/CartMixin";
 import uriTemplates from "uri-templates";
 import _ from "lodash";
@@ -104,7 +107,7 @@ import _ from "lodash";
 export default {
   name: "Checkout",
 
-  mixins: [CartMixin],
+  mixins: [CartMixin, ShopMixin],
 
   data: function() {
     return {
@@ -134,7 +137,8 @@ export default {
     submitForm: async function() {
       console.info(`=== submitForm @ Checkout`);
 
-      var billingAddress = Object.assign({}, this.shopSettings.address, {
+      await this.getShopAttributes();
+      var billingAddress = Object.assign({}, this.instoreAddress, {
         email: this.email
       });
       console.info(billingAddress);
