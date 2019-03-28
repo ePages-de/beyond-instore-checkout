@@ -30,10 +30,14 @@ export default {
     },
     createCart: async function() {
       if (this.getCartId()) {
-        console.info("=== Return existing cartId @ CartMixin");
+        console.info(
+          "=== Return existing cartId @ CartMixin",
+          this.getCartId()
+        );
         return this.getCartId();
       }
 
+      console.info("=== Creating new cart @ CartMixin");
       const { data } = await this.$axios.post("/carts");
       this.$storage.set(this.storageKey, data._id);
       this.cart = data;

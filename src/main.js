@@ -21,7 +21,7 @@ Vue.component("fa", FontAwesomeIcon);
 
 // configure axios, will be re-configured in App.vue
 import axios from "axios";
-Vue.prototype.$axios = axios.create({ timeout: 5000 });
+Vue.prototype.$axios = axios.create({ timeout: 15000 });
 
 // configure apollo
 // https://vue-apollo.netlify.com/guide/installation.html#manual-installation
