@@ -73,7 +73,8 @@ export default {
 
   data: function() {
     return {
-      alerts: []
+      alerts: [],
+      cart: {}
     };
   },
   methods: {

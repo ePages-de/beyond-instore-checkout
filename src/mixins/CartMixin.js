@@ -15,6 +15,7 @@ export default {
   },
 
   mounted: function() {
+    console.info(`==== mounted CartMixin @ ${this.$options.name}`);
     this.getCart();
   },
 
@@ -28,6 +29,7 @@ export default {
     getCartId: function() {
       return this.$storage.get(this.storageKey);
     },
+
     createCart: async function() {
       if (this.getCartId()) {
         console.info(
@@ -39,19 +41,20 @@ export default {
 
       console.info("=== Creating new cart @ CartMixin");
       const { data } = await this.$axios.post("/carts");
-      this.$storage.set(this.storageKey, data._id);
       this.cart = data;
+      this.$storage.set(this.storageKey, this.cart._id);
+      console.info(`=== Created new cart (${this.cart._id}) @ CartMixin`);
 
       try {
-        await this.setShippingAddress(this.shopSettings.address);
+        await this.setShippingAddress(this.instoreAddress);
         await this.$axios.put(
           `/carts/${this.getCartId()}/payment-methods/current`,
-          this.shopSettings.paymentMethod,
+          this.instorePaymentMethod,
           { headers: { "content-type": "text/uri-list" } }
         );
         await this.$axios.put(
           `/carts/${this.getCartId()}/shipping-methods/current`,
-          this.shopSettings.shippingMethod,
+          this.instoreShippingMethod,
           { headers: { "content-type": "text/uri-list" } }
         );
 
@@ -59,6 +62,7 @@ export default {
         return this.getCartId();
       } catch (_error) {
         this.$storage.set(this.storageKey, null);
+        throw _error;
       }
     },
     putLineItem: async function(productId, quantity = 1) {

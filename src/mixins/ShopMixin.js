@@ -38,60 +38,98 @@ export default {
         images: []
       },
       legalContent: [],
-      skip: false
+      skipQuery: false,
+      shopAttributes: []
     };
+  },
+
+  mounted: async function() {
+    console.info(`==== mounted ShopMixin @ ${this.$options.name}`);
+    //await this.fetchShopAndLegelContent();
+  },
+
+  methods: {
+    fetchShopAndLegelContent: async function() {
+      this.$apollo.queries.shopAndLegalContent.skip = false;
+      await this.$apollo.queries.shopAndLegalContent.refetch();
+    },
+
+    getShopAttributes: async function() {
+      return this.$axios
+        .request({ url: "/shop/attributes", params: { size: 100 } })
+        .then(response => {
+          this.shopAttributes = _.get(
+            response,
+            "data._embedded.attributes",
+            []
+          );
+        })
+        .catch(e => {
+          console.error(e);
+          this.alerts.push({ message: "error fetching shop attributes" });
+        });
+    }
   },
 
   apollo: {
     shopAndLegalContent: {
-      query: graphqlQuery,
-      variables: {
-        legalContent: [
-          "privacy-policy",
-          "terms-and-conditions",
-          "right-of-withdrawal"
-        ]
+      query() {
+        return graphqlQuery;
+      },
+      variables() {
+        return {
+          legalContent: [
+            "privacy-policy",
+            "terms-and-conditions",
+            "right-of-withdrawal"
+          ]
+        };
       },
       skip() {
-        return this.skip;
+        return this.skipQuery;
       },
       update(data) {
-        console.info(`Skip GraphQL @ ${this.$options.name}`, this.skip);
-        if (this.skip) {
+        console.info(
+          `Skip GraphQL query? @ ${this.$options.name}`,
+          this.skipQuery
+        );
+        if (this.skipQuery) {
           return;
         }
         this.shop = data.shop;
         this.legalContent = data.legalContent;
-        this.skip = true;
+        this.skipQuery = true;
       }
     }
   },
 
   computed: {
-    shopSettings: function() {
-      var address = this.shop.attributes.find(
+    instoreAddress: function() {
+      //var address = this.shop.attributes.find(
+      var address = this.shopAttributes.find(
         element => element.name === "instore-checkout:address"
       );
-      address = address ? JSON.parse(address.value) : null;
+      address = address ? JSON.parse(address.value) : {};
       Object.keys(address).forEach(
         key => address[key] === null && delete address[key]
       );
+      return address;
+    },
 
-      var paymentMethod = this.shop.attributes.find(
+    instorePaymentMethod: function() {
+      //var paymentMethod = this.shop.attributes.find(
+      var paymentMethod = this.shopAttributes.find(
         element => element.name === "instore-checkout:payment-method"
       );
-      paymentMethod = paymentMethod ? paymentMethod.value : null;
+      return paymentMethod ? paymentMethod.value : null;
+    },
 
-      var shippingMethod = this.shop.attributes.find(
+    instoreShippingMethod: function() {
+      //var shippingMethod = this.shop.attributes.find(
+      var shippingMethod = this.shopAttributes.find(
         element => element.name === "instore-checkout:shipping-method"
       );
-      shippingMethod = shippingMethod ? shippingMethod.value : null;
-
-      return {
-        address: address,
-        paymentMethod: paymentMethod,
-        shippingMethod: shippingMethod
-      };
+      return shippingMethod ? shippingMethod.value : null;
     },
 
     shopName: function() {
