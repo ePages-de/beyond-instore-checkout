@@ -1,17 +1,11 @@
 <template>
-  <div>
-    <div class="row text-center">
-      <div class="col" v-if="privacyPolicy">
-        <span v-b-popover.hover.html.topright="privacyPolicy" title="Privacy Policy">Privacy Policy</span>
-      </div>
-      <div class="col" v-if="termsAndConditions">
-        <span v-b-popover.hover.html.top="termsAndConditions" title="Terms and Conditions">Terms and Conditions</span>
-      </div>
-      <div class="col" v-if="rightOfWithdrawal">
-        <span v-b-popover.hover.html.topleft="rightOfWithdrawal" title="Right of Withdrawal">Right of Withdrawal</span>
+  <footer>
+    <div class="wrapper">
+      <div class="footer">
+        <p>Before you complete the purchase, we ask you to carefully read our <a v-b-popover.hover.html.top="privacyPolicy" title="Privacy Policy">Privacy Policy</a>, <a v-b-popover.hover.html.top="termsAndConditions" title="Terms and Conditions">Terms and Conditions</a> and <a v-b-popover.hover.html.top="rightOfWithdrawal" title="Right of Withdrawal">Right of Withdrawal</a></p>
       </div>
     </div>
-  </div>
+  </footer>
 </template>
 
 <script>

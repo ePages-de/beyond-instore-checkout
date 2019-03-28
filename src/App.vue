@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="container">
+  <div id="app">
     <NavBar :shopName="shopName" :shopLogo="shopLogo"/>
     <router-view/>
     <Footer :privacyPolicy="privacyPolicy" :termsAndConditions="termsAndConditions" :rightOfWithdrawal="rightOfWithdrawal" />
