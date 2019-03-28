@@ -12,7 +12,7 @@
       </a>
       <div class="cart-table-item-product-description">
         <a href="#">
-          <h2 class="headline">{{ lineItem.name }}</h2>
+          <h2 class="headline">{{ lineItem.name }} {{ variationValue }}</h2>
         </a>
         <p class="essential-features"></p>
         <button class="remove-link" title="Remove product" type="button">
@@ -63,6 +63,13 @@ export default {
       )} 360w, ${this.imageLink(540)} 540w, ${this.imageLink(
         720
       )} 720w, ${this.imageLink(900)} 900w`;
+    },
+    variationValue() {
+      if (this.lineItem._embedded.product.variationAttributeValues) {
+        return this.lineItem._embedded.product.variationAttributeValues
+          .map(value => value.value)
+          .join(" ");
+      }
     }
   },
   methods: {
