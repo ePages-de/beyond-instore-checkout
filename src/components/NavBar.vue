@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="lg" :sticky="true" type="" variant="">
+  <b-navbar toggleable="lg" :sticky="true" type variant>
     <b-navbar-brand>
       <img class="p-0 m-0" :src="shopLogo" :alt="shopName">
     </b-navbar-brand>

@@ -24,8 +24,6 @@ export default {
     console.info(`==== mounted AddToCart @ ${this.$options.name}`);
     console.info(`Adding product with id '${this.productId}' to cart`);
 
-    await this.getShop();
-
     await this.createCart();
 
     await this.putLineItem(this.productId);

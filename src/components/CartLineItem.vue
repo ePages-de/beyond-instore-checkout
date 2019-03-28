@@ -27,11 +27,15 @@
     <td class="cart-table-item-quantity">
       <span class="show-subhead">Quantity</span>
       <div class="quantity-field">
-        <button v-on:click="$emit('decreaseQuantity', lineItem._embedded.product._id)"><fa icon="minus-circle" size="2x" /></button>
+        <button v-on:click="$emit('decreaseQuantity', lineItem._embedded.product._id)">
+          <fa icon="minus-circle" size="2x"/>
+        </button>
         {{ lineItem.quantity }}
         <button
           v-on:click="$emit('increaseQuantity', lineItem._embedded.product._id)"
-        ><fa icon="plus-circle" size="2x" /></button>
+        >
+          <fa icon="plus-circle" size="2x"/>
+        </button>
       </div>
     </td>
     <td class="cart-table-item-total">
@@ -45,13 +49,13 @@
 import uriTemplates from "uri-templates";
 import _ from "lodash";
 
+import FilterMixin from "@/mixins/FilterMixin";
 import ShopMixin from "@/mixins/ShopMixin";
-import CartMixin from "@/mixins/CartMixin";
 
 export default {
   name: "CartLineItem",
   props: ["lineItem"],
-  mixins: [ShopMixin, CartMixin],
+  mixins: [FilterMixin, ShopMixin],
   computed: {
     imageSrcSet: function() {
       return `${this.imageLink(180)} 180w, ${this.imageLink(

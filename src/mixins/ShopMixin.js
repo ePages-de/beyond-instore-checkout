@@ -1,23 +1,75 @@
 /* eslint-disable */
+import gql from "graphql-tag";
+import uriTemplates from "uri-templates";
 import _ from "lodash";
+
+const graphqlQuery = gql`
+  query GetShopAndLegalContent($legalContent: [String!]) {
+    shop: shop {
+      name
+      defaultLocale
+      attributes {
+        name
+        value
+      }
+      images {
+        label
+        data {
+          href
+        }
+      }
+    }
+
+    legalContent: allLegalContent(types: $legalContent) {
+      type
+      content
+    }
+  }
+`;
 
 export default {
   name: "ShopMixin",
 
   data: function() {
     return {
-      shop: {},
-      shopAttributes: [],
-      shopImages: [],
-      privacyPolicy: null,
-      termsAndConditions: null,
-      rightOfWithdrawal: null
+      shop: {
+        // default values for computed functions
+        attributes: [],
+        images: []
+      },
+      legalContent: [],
+      skip: false
     };
+  },
+
+  apollo: {
+    shopAndLegalContent: {
+      query: graphqlQuery,
+      variables: {
+        legalContent: [
+          "privacy-policy",
+          "terms-and-conditions",
+          "right-of-withdrawal"
+        ]
+      },
+      skip() {
+        return this.skip;
+      },
+      update(data) {
+        console.info(`Skip GraphQL @ ${this.$options.name}`, this.skip);
+        if (this.skip) {
+          return;
+        }
+        this.shop = data.shop;
+        this.legalContent = data.legalContent;
+        this.skip = true;
+      }
+    }
   },
 
   computed: {
     shopSettings: function() {
-      var address = this.shopAttributes.find(
+      var address = this.shop.attributes.find(
         element => element.name === "instore-checkout:address"
       );
       address = address ? JSON.parse(address.value) : null;
@@ -25,12 +77,12 @@ export default {
         key => address[key] === null && delete address[key]
       );
 
-      var paymentMethod = this.shopAttributes.find(
+      var paymentMethod = this.shop.attributes.find(
         element => element.name === "instore-checkout:payment-method"
       );
       paymentMethod = paymentMethod ? paymentMethod.value : null;
 
-      var shippingMethod = this.shopAttributes.find(
+      var shippingMethod = this.shop.attributes.find(
         element => element.name === "instore-checkout:shipping-method"
       );
       shippingMethod = shippingMethod ? shippingMethod.value : null;
@@ -40,94 +92,41 @@ export default {
         paymentMethod: paymentMethod,
         shippingMethod: shippingMethod
       };
-    }
-  },
-
-  mounted: function() {
-    console.info(`==== mounted ShopMixin @ ${this.$options.name}`);
-    this.getShop();
-    this.getShopAttributes();
-    this.getShopImages();
-    this.getPrivacyPolicy();
-    this.getTermsAndConditions();
-    this.getRightOfWithdrawal();
-  },
-
-  methods: {
-    getShop: async function() {
-      return this.$axios
-        .request({ url: "/shop" })
-        .then(response => {
-          this.shop = _.get(response, "data", {});
-        })
-        .catch(e => {
-          console.error(e);
-          this.alerts.push({ message: "error fetching shop" });
-        });
     },
 
-    getShopAttributes: async function() {
-      return this.$axios
-        .request({ url: "/shop/attributes", params: { size: 100 } })
-        .then(response => {
-          this.shopAttributes = _.get(
-            response,
-            "data._embedded.attributes",
-            []
-          );
-        })
-        .catch(e => {
-          console.error(e);
-          this.alerts.push({ message: "error fetching shop attributes" });
-        });
+    shopName: function() {
+      return this.shop.name;
     },
 
-    getShopImages: async function() {
-      this.$axios
-        .request({ url: "/shop/images" })
-        .then(response => {
-          this.shopImages = _.get(response, "data._embedded.images", []);
-        })
-        .catch(e => {
-          console.error(e);
-          this.alerts.push({ message: "error fetching shop images" });
-        });
+    shopLogo: function() {
+      var image = this.shop.images.find(element => element.label === "logo");
+      var href = _.get(
+        image,
+        "data.href",
+        "https://dummyimage.com/100x{height}/f8f9fa/222222.png&text=Logo"
+      );
+      return uriTemplates(href).fill({ height: 50 });
     },
 
-    getPrivacyPolicy: async function() {
-      this.$axios
-        .request({ url: "/legal-content/privacy-policy" })
-        .then(response => {
-          this.privacyPolicy = _.get(response, "data.content", "");
-        })
-        .catch(e => {
-          console.error(e);
-          this.alerts.push({ message: "error fetching privacy policy" });
-        });
+    privacyPolicy: function() {
+      var lc = this.legalContent.find(
+        element => element.type === "privacy-policy"
+      );
+      return lc ? lc.content : "";
     },
 
-    getTermsAndConditions: async function() {
-      this.$axios
-        .request({ url: "/legal-content/terms-and-conditions" })
-        .then(response => {
-          this.termsAndConditions = _.get(response, "data.content", "");
-        })
-        .catch(e => {
-          console.error(e);
-          this.alerts.push({ message: "error fetching terms and conditions" });
-        });
+    termsAndConditions: function() {
+      var lc = this.legalContent.find(
+        element => element.type === "terms-and-conditions"
+      );
+      return lc ? lc.content : "";
     },
 
-    getRightOfWithdrawal: async function() {
-      this.$axios
-        .request({ url: "/legal-content/right-of-withdrawal" })
-        .then(response => {
-          this.rightOfWithdrawal = _.get(response, "data.content", "");
-        })
-        .catch(e => {
-          console.error(e);
-          this.alerts.push({ message: "error fetching right of withdrawal" });
-        });
+    rightOfWithdrawal: function() {
+      var lc = this.legalContent.find(
+        element => element.type === "right-of-withdrawal"
+      );
+      return lc ? lc.content : "";
     }
   }
 };

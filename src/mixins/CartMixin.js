@@ -1,11 +1,12 @@
 /* eslint-disable */
+import FilterMixin from "@/mixins/FilterMixin";
 import ShopMixin from "@/mixins/ShopMixin";
 import _ from "lodash";
 
 export default {
   name: "CartMixin",
 
-  mixins: [ShopMixin],
+  mixins: [FilterMixin, ShopMixin],
 
   data: function() {
     return {
@@ -23,23 +24,6 @@ export default {
     }
   },
 
-  filters: {
-    formatPrice: function(price, shop) {
-      return new Intl.NumberFormat(shop.defaultLocale, {
-        style: "currency",
-        currency: price.currency
-      }).format(price.amount);
-    },
-
-    formatPercentage: function(percentage, shop) {
-      return new Intl.NumberFormat(shop.defaultLocale, {
-        style: "percent",
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-      }).format(percentage);
-    }
-  },
-
   methods: {
     getCartId: function() {
       return this.$storage.get(this.storageKey);
@@ -50,22 +34,28 @@ export default {
         return this.getCartId();
       }
 
-      await this.getShopAttributes()
       const { data } = await this.$axios.post("/carts");
       this.$storage.set(this.storageKey, data._id);
       this.cart = data;
 
       try {
-        await this.setShippingAddress(this.shopSettings.address)
-        await this.$axios.put(`/carts/${this.getCartId()}/payment-methods/current`, this.shopSettings.paymentMethod, {headers: { 'content-type': 'text/uri-list' }})
-        await this.$axios.put(`/carts/${this.getCartId()}/shipping-methods/current`, this.shopSettings.shippingMethod, {headers: { 'content-type': 'text/uri-list' }})
+        await this.setShippingAddress(this.shopSettings.address);
+        await this.$axios.put(
+          `/carts/${this.getCartId()}/payment-methods/current`,
+          this.shopSettings.paymentMethod,
+          { headers: { "content-type": "text/uri-list" } }
+        );
+        await this.$axios.put(
+          `/carts/${this.getCartId()}/shipping-methods/current`,
+          this.shopSettings.shippingMethod,
+          { headers: { "content-type": "text/uri-list" } }
+        );
 
         console.info(`=== created new cart ${this.getCartId()} @ CartMixin`);
         return this.getCartId();
       } catch (_error) {
-        this.$storage.set(this.storageKey, null)
+        this.$storage.set(this.storageKey, null);
       }
-
     },
     putLineItem: async function(productId, quantity = 1) {
       console.info(
@@ -83,7 +73,7 @@ export default {
     },
 
     getCart: async function() {
-      console.info("=== Getting current cart");
+      console.info(`=== Getting current cart @ ${this.$options.name}`);
       if (this.getCartId()) {
         const { data } = await this.$axios.get(`/carts/${this.getCartId()}`);
         this.cart = data;
@@ -108,7 +98,10 @@ export default {
     },
     setShippingAddress: async function(address) {
       console.info(`=== Setting shipping address to cart @ CartMixin`);
-      await this.$axios.put(`/carts/${this.getCartId()}/shipping-address`, address)
+      await this.$axios.put(
+        `/carts/${this.getCartId()}/shipping-address`,
+        address
+      );
     },
     orderCart: async function() {
       console.info("=== Ordering current cart");
