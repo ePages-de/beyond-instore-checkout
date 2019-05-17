@@ -143,7 +143,13 @@ export default {
       });
       console.info(billingAddress);
 
+      var shippingAddress = Object.assign({}, this.instoreAddress, {
+        email: this.email
+      });
+      console.info(shippingAddress);
+
       await this.setBillingAddress(billingAddress);
+      await this.setShippingAddress(shippingAddress);
       await this.orderCart();
       this.email = null;
       this.cart = null;
