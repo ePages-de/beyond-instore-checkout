@@ -37,7 +37,7 @@ export default {
   methods: {
     getProducts: async function() {
       this.$axios
-        .request({ url: "/product-view/products" })
+        .request({ url: "/product-view/products", params: {size: 200} })
         .then(response => {
           this.products = _.get(response, "data._embedded.products", []);
         })
