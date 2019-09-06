@@ -6,7 +6,7 @@
           <h1>Order confirmation</h1>
           <header class="order-confirmation">
             <div class="order-confirmation-status">
-              <div class="status-order"><h2>Thank you for your order, you received a confirmation via email. Please pay at the cash register by indicating your order number.</h2></div>
+              <div class="status-order"><h2>Thank you for your order, you received a confirmation via email.</h2></div>
               <div class="status-home"></div>
             </div>
           </header>
