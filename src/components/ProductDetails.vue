@@ -75,10 +75,9 @@ export default {
     },
     getQrCodeLink: function(productId) {
       var origin = document.location.origin;
-      var addToCartTemplate = "{origin}/{shop}/cart/{productId}";
+      var addToCartTemplate = `${origin}/{shop}/cart/{productId}`;
       var addToCartLink = uriTemplates(addToCartTemplate).fill({
         shop: this.$route.params.shop,
-        origin,
         productId
       });
       var qrCodeTemplate =
