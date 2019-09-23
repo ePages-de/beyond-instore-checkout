@@ -3,7 +3,7 @@
     <div class="card-body">
       <h5 class="card-title">{{ product.name }}</h5>
       <div class="card-text">
-        <img class="card-img-top img-thumbnail p-0 m-0" :src="imageLink" :alt="product.name">
+        <img class="card-img-top img-thumbnail p-0 m-0" :src="imageLink" :alt="product.name" />
         <div v-if="!product.variations || variations.length" class="qr-codes">
           QR Codes:
           <a
@@ -74,11 +74,12 @@ export default {
       }
     },
     getQrCodeLink: function(productId) {
-      var addToCartTemplate =
-        "https://beyond-instore-checkout.herokuapp.com/{shop}/cart/{productId}";
+      var origin = document.location.origin;
+      var addToCartTemplate = "{origin}/{shop}/cart/{productId}";
       var addToCartLink = uriTemplates(addToCartTemplate).fill({
         shop: this.$route.params.shop,
-        productId: productId
+        origin,
+        productId
       });
       var qrCodeTemplate =
         "https://api.qrserver.com/v1/create-qr-code/?{&size,format,data}";
