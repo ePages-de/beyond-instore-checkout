@@ -21,13 +21,13 @@
                         class="ep-form-text-field checkout-Input-field"
                         name="personalData.billingAddress.email"
                         type="email"
-                      >
+                      />
                     </div>
                   </div>
                 </div>
                 <div class="checkout-button-row">
                   <router-link to="cart" class="back-link">
-                    <fa icon="caret-left"/>Back to Basket
+                    <fa icon="caret-left" />Back to Basket
                   </router-link>
                   <button type="submit" class="button button-primary">Buy now</button>
                 </div>
@@ -48,7 +48,7 @@
                     :src="lineItem._embedded.product | imageLink"
                     :alt="lineItem.name"
                     width="70px"
-                  >
+                  />
                   <div class="checkout-product-description">
                     <a>
                       <h2 class="checkout-product-description-headline">{{ lineItem.name }}</h2>
@@ -94,6 +94,11 @@
         </div>
       </div>
     </div>
+    <iframe
+      src="/confirmation_page.html"
+      style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; display: none;"
+      v-on:load="onIframeLoaded"
+    />
   </div>
 </template>
 
@@ -130,11 +135,39 @@ export default {
 
   created: function() {
     console.info(`==== created Checkout @ ${this.$options.name}`);
+    window.addEventListener("message", this.messageHandler);
     this.getCart();
+  },
+  beforeDestroy: function() {
+    window.removeEventListener("message", this.messageHandler);
   },
 
   methods: {
-    submitForm: async function() {
+    onIframeLoaded: function() {
+      document.querySelector("iframe").contentWindow.postMessage(
+        {
+          action: "price",
+          price: this.cart.grandTotal.amount.toFixed(2)
+        },
+        "*"
+      );
+    },
+    messageHandler: function(message) {
+      if (message && message.data) {
+        if (message.data.action === "hide") {
+          document.querySelector("iframe").style.display = "none";
+          document.querySelector(".navbar").style.display = "block";
+        }
+        if (message.data.action === "submit") {
+          this.submitOrder();
+        }
+      }
+    },
+    submitForm: function() {
+      document.querySelector("iframe").style.display = "block";
+      document.querySelector(".navbar").style.display = "none";
+    },
+    submitOrder: async function() {
       console.info(`=== submitForm @ Checkout`);
 
       await this.getShopAttributes();
@@ -153,6 +186,8 @@ export default {
       await this.orderCart();
       this.email = null;
       this.cart = null;
+      document.querySelector("iframe").style.display = "none";
+      document.querySelector(".navbar").style.display = "block";
       this.$router.push({ name: "Confirmation" });
     }
   }

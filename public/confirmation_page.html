@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+  <!-- https://realfavicongenerator.net/ -->
+  <link rel="apple-touch-icon" sizes="180x180" href="http://localhost:8080/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="http://localhost:8080/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:8080/favicon-16x16.png">
+  <link rel="manifest" href="http://localhost:8080/site.webmanifest">
+  <link href="https://test.saferpay.com/favicon.ico" type="image/x-icon" rel="shortcut icon">
+  <link href="Saferpay-Dateien/base.css" rel="stylesheet">
+
+
+  <link href="Saferpay-Dateien/responsive.css" rel="stylesheet">
+  <link href="Saferpay-Dateien/51a2936d-e424-4ea1-a7d5-62871e5aaba3.css" rel="stylesheet">
+
+
+  <script src="Saferpay-Dateien/jquery-1.js" type="text/javascript"></script>
+  <script src="Saferpay-Dateien/scripts.js" type="text/javascript"></script>
+  <script src="Saferpay-Dateien/cleave.js" type="text/javascript"></script>
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+  <title>BEYOND Instore Checkout</title>
+  <style type="text/css">
+    .card[data-v-1c354f03] {
+      width: 23vw;
+      min-height: 30vw;
+      -webkit-box-shadow: 2px 0px 10px #aaa;
+      box-shadow: 2px 0px 10px #aaa;
+      cursor: pointer;
+    }
+
+    .card-img-top[data-v-1c354f03] {
+      height: 80%;
+    }
+
+    .qr-codes a[data-v-1c354f03] {
+      padding: 5px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <script type="text/javascript">
+    function hideshow(submit) {
+      if (submit) {
+        setTimeout(() => {
+          window.parent.postMessage({ action: 'submit' }, '*')
+        }, 2000)
+      } else {
+        window.parent.postMessage({ action: 'hide' }, '*')
+      }
+    }
+    window.addEventListener('message', function (message) {
+      if (message.data.action === 'price') {
+        document.querySelector('.text-amount').innerHTML = message.data.price
+      }
+    })
+  </script>
+
+  <div id="overlay"
+    style="display: block;position: absolute;width: 100%;background-color: #fff;z-index: 9999;font-family: Roboto, Helvetica, Arial, sans-serif;line-height:1;">
+    <div id="ajax-loading" class="ajax-loading" style="display: none"><i></i><i></i><i></i><i></i></div>
+
+    <div class="box box-content">
+
+      <div class="box box-header">
+        <div class="box box-shop">
+          <div class="img img-shop">
+            <img src="Saferpay-Dateien/Logo.jpg" alt="logo">
+          </div>
+        </div>
+
+
+        <label class="box box-language details-summary-widget">
+          <input type="checkbox" onclick="PostCssMessage();">
+          <span class="icon icon-hint">
+            English <span class="btn btn-arrow noLock">▼</span>
+          </span>
+          <span class="text text-hint">
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=de-CH">Deutsch
+              (CH)</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=de">Deutsch</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=et">Eesti</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=lv">Latviešu</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=lt">Lietuvių</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=fr">Français</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=da">Dansk</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=cs">Čeština</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=es">Español</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=hr">Hrvatski</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=it">Italiano</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=hu">Magyar</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=nl">Nederlands</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=nn">Norsk</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=pl">Polski</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=pt">Português</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=ru">Русский</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=ro">Română</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=sk">Slovenský</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=sl">Slovenski</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=fi">Suomi</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=sv">Svenska</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=tr">Türkçe</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=el">Ελληνικά</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=uk">Українська</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=ja">日本語</a>
+            <a
+              href="https://test.saferpay.com/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p?VTLanguage=zh">中国語</a>
+          </span>
+        </label>
+      </div>
+      <div class="box box-main">
+
+        <label class="box box-payment details-summary-widget">
+          <input type="checkbox" onclick="PostCssMessage();">
+          <span>
+            <span class="icon icon-hint">
+              <span class="btn btn-arrow noLock">▼</span>
+            </span>
+            <span class="text text-total-amount">Total amount</span>
+            <span class="text text-currency">EUR</span>
+            <span class="text text-amount">2.00</span>
+          </span>
+          <span class="text text-hint">
+            <span class="text text-description">
+              <span class="text text-offer">Offer</span>
+              <span class="text text-offer-description">Worldline/SIX Payment Services 159924</span>
+            </span>
+            <span class="text text-address">
+              <span class="text text-merchant">Merchant</span>
+              <span class="text text-merchant-name">SIX Payment Services Ltd</span><br>
+              <span class="text text-merchant-street">Hardturmstrasse 201 </span><br>
+              <span class="text text-merchant-city">8005 Zurich</span><br>
+              <span class="text text-merchant-country">Switzerland</span><br>
+              <span class="text text-merchant-mail">internals@six-payment-services.com</span><br>
+
+              <span class="text text-merchant-page">www.six-payment-services.com</span><br>
+            </span>
+          </span>
+        </label>
+
+        <form action="/VT2/mpp/PaymentDataEntry/Index/waky34sdy0ir42qhrhpg510p" class="page page-card page-card-visa"
+          method="post">
+          <header>
+            <h1>Card data</h1>
+            <figure>
+              <img src="Saferpay-Dateien/CardType_19286.png" alt="VISA" title="VISA" class="img img-logo">
+            </figure>
+          </header>
+          <main>
+
+            <div class="box box-information box-information-required-fields" role="alert">
+              <div class="icon icon-information" title="Note">i</div>
+              <div class="text text-information">* mandatory fields</div>
+            </div>
+
+
+            <fieldset>
+              <legend>
+                Pay with a card
+              </legend>
+              <script>
+                $(function () {
+
+                  if (!/[^ \d]/.test($('#CardNumber').val())) {
+                    new Cleave('#CardNumber',
+                      {
+                        creditCard: true,
+                        convertCjk: true
+                      });
+                  }
+                  if ($('#VerificationCode').length && !/[^ \d]/.test($('#VerificationCode').val())) {
+                    new Cleave('#VerificationCode',
+                      {
+                        numeral: true,
+                        numeralThousandsGroupStyle: 'none',
+                        numeralDecimalScale: 0,
+                        numeralPositiveOnly: true,
+                        stripLeadingZeroes: false,
+                        convertCjk: true
+                      });
+                  }
+                });
+              </script>
+
+              <div class="form-container" id="CardData">
+                <div class="form-group has-value is-focused">
+                  <div class="form-label">
+                    <label class="input-required" for="CardNumber" title="Required field">Card number<span
+                        class="icon icon-required"> *</span></label>
+                  </div>
+                  <div class="form-input">
+                    <input required="required" autocomplete="cc-number" class="input-large input-cardnumber cardNumber"
+                      id="CardNumber" name="CardNumber" type="text" value="9010 5000 0400 0004 ">
+                  </div>
+                </div>
+
+                <div class="form-group has-value">
+                  <div class="form-label">
+                    <label class="input-required" for="ExpMonth" title="Required field">Valid until<span
+                        class="icon icon-required"> *</span></label>
+                  </div>
+                  <div class="form-input">
+                    <select required="required" autocomplete="cc-exp-month"
+                      class="input-small input-expirymonth creditCardMonth" id="ExpMonth" name="ExpMonth">
+                      <option value="">&nbsp;</option>
+                      <option value="1">01</option>
+                      <option value="2">02</option>
+                      <option value="3">03</option>
+                      <option value="4">04</option>
+                      <option value="5">05</option>
+                      <option selected="selected" value="6">06</option>
+                      <option value="7">07</option>
+                      <option value="8">08</option>
+                      <option value="9">09</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <select required="required" autocomplete="cc-exp-year"
+                      class="input-small input-expiryyear creditCardYear" id="ExpYear" name="ExpYear">
+                      <option value="">&nbsp;</option>
+                      <option selected="selected" value="2019">2019</option>
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                      <option value="2022">2022</option>
+                      <option value="2023">2023</option>
+                      <option value="2024">2024</option>
+                      <option value="2025">2025</option>
+                      <option value="2026">2026</option>
+                      <option value="2027">2027</option>
+                      <option value="2028">2028</option>
+                      <option value="2029">2029</option>
+                      <option value="2030">2030</option>
+                      <option value="2031">2031</option>
+                      <option value="2032">2032</option>
+                      <option value="2033">2033</option>
+                      <option value="2034">2034</option>
+                      <option value="2035">2035</option>
+                      <option value="2036">2036</option>
+                      <option value="2037">2037</option>
+                      <option value="2038">2038</option>
+                      <option value="2039">2039</option>
+                      <option value="2040">2040</option>
+                      <option value="2041">2041</option>
+                      <option value="2042">2042</option>
+                      <option value="2043">2043</option>
+                      <option value="2044">2044</option>
+                      <option value="2045">2045</option>
+                      <option value="2046">2046</option>
+                      <option value="2047">2047</option>
+                      <option value="2048">2048</option>
+                      <option value="2049">2049</option>
+                      <option value="2050">2050</option>
+                      <option value="2051">2051</option>
+                      <option value="2052">2052</option>
+                      <option value="2053">2053</option>
+                    </select>
+                  </div>
+                </div>
+
+
+                <div class="form-group has-value">
+                  <div class="form-label">
+                    <label class="input-required" for="VerificationCode" title="Required field">Card verification
+                      code<span class="icon icon-required"> *</span></label>
+                  </div>
+                  <div class="form-input">
+                    <input required="required" autocomplete="off" class="input-small input-verificationcode"
+                      id="VerificationCode" maxlength="4" name="VerificationCode" type="tel" value="392">
+
+                    <label class="details-summary-widget">
+                      <input type="checkbox" onclick="PostCssMessage();">
+                      <span class="icon icon-hint">?</span>
+                      <span class="text text-hint">
+
+                        <b>
+                          What is the card verification code?</b> <br>
+                        The card verification code is a number printed on a credit card by card
+                        issuers. Its purpose is to protect customers and merchants from card
+                        misuse in e-payment. The card verification code is a three-digit number
+                        on Visa and Mastercards that is printed in the signature field on the
+                        back of the card. With American Express card is the card verification
+                        code consists of four digits and is found on the front side of the card.
+                        <br><b>
+                          How does it work?
+                        </b> <br>
+                        In the course of the payment transaction, the customer is asked for the
+                        card verification code. Only if the customer really has the card in
+                        his/her possession will he/she be able to enter the correct number and
+                        successfully complete the payment process.
+                        <br> <b>
+                          What are KPN, CVV2, CVC2 and CIC/4DBC?
+                        </b> <br>
+                        KPN stands for card verification number. Visa names the card
+                        verification number CVV2 (Card Verification Value), Mastercard calls its
+                        CVC2 (Card Verification Code). For American Express the verification
+                        number is called CIC/4DBC (Card Identification Code/Four Digit Batch
+                        Code).
+
+                        <br>
+                        <img src="Saferpay-Dateien/CvcHint.png" alt="">
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+
+              </div>
+            </fieldset>
+
+          </main>
+
+          <footer style="padding: 0;background-color: transparent;-webkit-box-shadow: none;box-shadow: none;">
+            <ul>
+              <li class="navitem navitem-back">
+
+              </li>
+              <li class="navitem navitem-abort">
+
+                <a href="javascript:hideshow(false)" class="btn btn-abort"
+                  style="line-height: 2;font-family: Roboto, Helvetica, Arial, sans-serif;padding: 0.6rem 0.8rem;color:#012656 !important;">Cancel</a>
+              </li>
+              <li class="navitem navitem-next">
+                <a href="javascript:hideshow(true)">
+                  <div name="SubmitToNext" data-progress-text="Wait" class="btn btn-next"
+                    style="line-height: 2;font-family: Roboto, Helvetica, Arial, sans-serif;padding: 0.6rem 0.8rem;">Buy
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </footer>
+        </form>
+      </div>
+
+
+    </div>
+    <img alt="" data-js-url="/VT2/Images/images/pingJsEnabled.gif?20190617161226" id="ping-img"
+      src="Saferpay-Dateien/ping.gif" width="1" height="1" border="0">
+    <script id="ga" src="Saferpay-Dateien/pingJsEnabled.js"></script>
+    <script id="ga" src="Saferpay-Dateien/googleAnalytics.js"></script>
+    <script data-ga-tracking-id="UA-115377191-3" id="ga-init" src="Saferpay-Dateien/googleAnalytics-init.js"></script>
+
+    <img id="ping-js-img" src="Saferpay-Dateien/pingJsEnabled.gif" alt="" width="1" height="1" border="0">
+  </div>
+</body>
+
+</html>
